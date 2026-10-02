@@ -11,7 +11,7 @@
 import { spawn } from "node:child_process"
 import { tmpdir } from "node:os"
 import { basename, dirname, join } from "node:path"
-import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 
 // rsvg-convert lives under MacPorts (/opt/local/bin); magick/gs under
 // /usr/local/bin; Homebrew under /opt/homebrew/bin. Augment PATH so the child
@@ -26,9 +26,16 @@ export const FILES_DIRNAME = "viz"
 export const CHROME_CANDIDATES = [
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   "/Applications/Chromium.app/Contents/MacOS/Chromium",
+  "/usr/bin/google-chrome",
+  "/usr/bin/google-chrome-stable",
+  "/usr/bin/chromium",
+  "/usr/bin/chromium-browser",
 ]
 
+/** An explicit PUPPETEER_EXECUTABLE_PATH wins; otherwise probe the usual install paths. */
 export function findChrome(): string | undefined {
+  const fromEnv = process.env.PUPPETEER_EXECUTABLE_PATH
+  if (fromEnv && existsSync(fromEnv)) return fromEnv
   for (const c of CHROME_CANDIDATES) if (existsSync(c)) return c
   return undefined
 }
@@ -97,11 +104,11 @@ export function writeBody(group: string, bodyFileName: string, source: string): 
  * match offset, or throws a precise error.
  */
 export function applyEdit(current: string, oldText: string, newText: string): { updated: string; index: number } {
-  if (oldText === "") throw new Error("`old_text` must be non-empty.")
-  if (oldText === newText) throw new Error("`old_text` and `new_text` are identical.")
+  if (oldText === "") throw new Error("`old_text` no puede estar vacío.")
+  if (oldText === newText) throw new Error("`old_text` y `new_text` son idénticos.")
   const first = current.indexOf(oldText)
   if (first === -1) {
-    throw new Error("`old_text` not found in the current source — match it exactly.")
+    throw new Error("`old_text` no aparece en el código actual — debe coincidir exactamente.")
   }
   const second = current.indexOf(oldText, first + 1)
   if (second !== -1) {
@@ -111,7 +118,7 @@ export function applyEdit(current: string, oldText: string, newText: string): { 
       n++
       i = current.indexOf(oldText, i + oldText.length)
     }
-    throw new Error(`\`old_text\` appears ${n} times — add surrounding context to make it unique.`)
+    throw new Error(`\`old_text\` aparece ${n} veces — añade contexto alrededor para que sea único.`)
   }
   const updated = current.slice(0, first) + newText + current.slice(first + oldText.length)
   return { updated, index: first }
@@ -128,6 +135,24 @@ export function snippetAround(content: string, index: number, contextLines = 3):
   const out: string[] = []
   for (let i = start; i <= end; i++) out.push(`${String(i + 1).padStart(width)}  ${lines[i]}`)
   return out.join("\n")
+}
+
+/**
+ * Delete previous preview renders in a session work dir. Published PNGs are
+ * copies living in <cwd>/viz, so dropping the staged originals is safe; without
+ * this, every preview iteration leaks a PNG into the OS temp dir.
+ */
+export function pruneRenders(workDir: string): void {
+  if (!existsSync(workDir)) return
+  for (const name of readdirSync(workDir)) {
+    if (name.startsWith("render-") && name.endsWith(".png")) {
+      try {
+        rmSync(join(workDir, name), { force: true })
+      } catch {
+        // Best effort — a leftover temp file is harmless.
+      }
+    }
+  }
 }
 
 /** Copy a rendered PNG into <cwd>/viz with a unique, slugified name. */

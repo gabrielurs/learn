@@ -1,14 +1,7 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import {
-	Editor,
-	type EditorTheme,
-	Key,
-	Text,
-	matchesKey,
-	truncateToWidth,
-	wrapTextWithAnsi,
-} from "@mariozechner/pi-tui";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { Editor, Key, Text, matchesKey, truncateToWidth } from "@earendil-works/pi-tui";
 import { Type } from "@sinclair/typebox";
+import { addWrapped, createEditorTheme, partialOptionLabels, withUILock } from "./_shared/ui.ts";
 
 interface AskOption {
 	label: string;
@@ -58,34 +51,34 @@ interface AskUserQuestionResultDetails {
 const OptionSchema = Type.Object({
 	label: Type.String({
 		description:
-			'Display label for the option. If you recommend an option, place it first and append "(Recommended)" to the label.',
+			'Etiqueta visible de la opción. Si recomiendas una opción, ponla primera y añade "(Recomendada)" al final de la etiqueta.',
 	}),
 	value: Type.Optional(
 		Type.String({
-			description: "Optional machine-readable value returned for the option. Defaults to the label.",
+			description: "Valor opcional legible por máquina devuelto para la opción. Por defecto, la etiqueta.",
 		}),
 	),
-	description: Type.Optional(Type.String({ description: "Optional extra detail shown below the option." })),
+	description: Type.Optional(Type.String({ description: "Detalle extra opcional mostrado bajo la opción." })),
 });
 
 const AskUserQuestionParams = Type.Object({
 	question: Type.String({
-		description: "The single question to ask the user. Ask exactly one question per tool call.",
+		description: "La única pregunta para el usuario. Exactamente una pregunta por llamada.",
 	}),
 	details: Type.Optional(
 		Type.String({
-			description: "Optional extra context or instructions shown under the question.",
+			description: "Contexto o instrucciones extra opcionales mostrados bajo la pregunta.",
 		}),
 	),
 	options: Type.Optional(
 		Type.Array(OptionSchema, {
 			description:
-				"Optional multiple-choice options. Omit or pass an empty array for free-form text input. Users will always be able to choose Other and type a custom answer when options are provided.",
+				"Opciones opcionales de opción múltiple. Omítelas o pasa un array vacío para respuesta de texto libre. Cuando hay opciones, el usuario siempre puede elegir Otra y escribir su propia respuesta.",
 		}),
 	),
 	multiSelect: Type.Optional(
 		Type.Boolean({
-			description: "Set to true to allow multiple answers to be selected for a question.",
+			description: "true para permitir marcar varias respuestas a la misma pregunta.",
 		}),
 	),
 });
@@ -101,27 +94,7 @@ function normalizeOptions(options: Array<{ label: string; value?: string; descri
 }
 
 function getOtherLabel(options: AskOption[]): string {
-	return options.some((option) => option.label.toLowerCase() === "other") ? "Other (custom)" : "Other";
-}
-
-function createEditorTheme(theme: any): EditorTheme {
-	return {
-		borderColor: (s) => theme.fg("accent", s),
-		selectList: {
-			selectedPrefix: (t) => theme.fg("accent", t),
-			selectedText: (t) => theme.fg("accent", t),
-			description: (t) => theme.fg("muted", t),
-			scrollInfo: (t) => theme.fg("dim", t),
-			noMatch: (t) => theme.fg("warning", t),
-		},
-	};
-}
-
-function addWrapped(lines: string[], text: string, width: number, indent = ""): void {
-	const contentWidth = Math.max(1, width - indent.length);
-	for (const line of wrapTextWithAnsi(text, contentWidth)) {
-		lines.push(truncateToWidth(`${indent}${line}`, width));
-	}
+	return options.some((option) => option.label.toLowerCase() === "otra") ? "Otra (personalizada)" : "Otra";
 }
 
 function formatAnswerForModel(answer: AskAnswer): string {
@@ -129,7 +102,7 @@ function formatAnswerForModel(answer: AskAnswer): string {
 		case "text":
 			return answer.label;
 		case "other":
-			return `Other: ${answer.label}`;
+			return `Otra: ${answer.label}`;
 		case "option":
 			return `${answer.index}. ${answer.label}`;
 	}
@@ -169,7 +142,7 @@ function buildStructuredResult(
 }
 
 function cancelledResult(question: string, mode: AskUserQuestionMode, context?: string) {
-	const message = "User cancelled the question";
+	const message = "El usuario canceló la pregunta";
 	return {
 		content: [{ type: "text" as const, text: message }],
 		details: buildStructuredResult("cancelled", question, mode, [], context, message),
@@ -187,11 +160,11 @@ function buildResult(question: string, context: string | undefined, mode: AskUse
 	let text: string;
 	if (mode === "text") {
 		const answer = answers[0];
-		text = answer.label.trim().length > 0 ? `User answered: ${answer.label}` : "User submitted an empty response";
+		text = answer.label.trim().length > 0 ? `El usuario respondió: ${answer.label}` : "El usuario envió una respuesta vacía";
 	} else if (mode === "single-select") {
-		text = `User selected: ${formatAnswerForModel(answers[0])}`;
+		text = `El usuario eligió: ${formatAnswerForModel(answers[0])}`;
 	} else {
-		text = `User selected:\n${answers.map((answer) => `- ${formatAnswerForModel(answer)}`).join("\n")}`;
+		text = `El usuario eligió:\n${answers.map((answer) => `- ${formatAnswerForModel(answer)}`).join("\n")}`;
 	}
 
 	return {
@@ -306,15 +279,15 @@ async function askSingleChoice(
 
 			if (editMode) {
 				lines.push("");
-				add(theme.fg("muted", " Write your custom answer:"));
+				add(theme.fg("muted", " Escribe tu respuesta:"));
 				for (const line of editor.render(Math.max(1, width - 2))) {
 					add(` ${line}`);
 				}
 				lines.push("");
-				add(theme.fg("dim", " Enter to submit • Esc to go back"));
+				add(theme.fg("dim", " Enter para enviar • Esc para volver"));
 			} else {
 				lines.push("");
-				add(theme.fg("dim", " ↑↓ navigate • Enter select • Esc cancel"));
+				add(theme.fg("dim", " ↑↓ navegar • Enter elegir • Esc cancelar"));
 			}
 
 			add(theme.fg("accent", "─".repeat(width)));
@@ -345,7 +318,7 @@ async function askMultiChoice(
 		id: `option:${index}`,
 		index: index + 1,
 	}));
-	const submitItem: DisplayOption = { id: "submit", label: "Submit", value: "__submit__", isSubmit: true };
+	const submitItem: DisplayOption = { id: "submit", label: "Enviar", value: "__submit__", isSubmit: true };
 	const allItems: DisplayOption[] = [
 		...choiceItems,
 		{ id: "other", label: otherLabel, value: "__other__", isOther: true },
@@ -475,7 +448,7 @@ async function askMultiChoice(
 				const prefix = isFocused ? theme.fg("accent", "> ") : "  ";
 
 				if (item.isSubmit) {
-					const label = selected.size > 0 ? `✓ ${item.label} (${selected.size} selected)` : `○ ${item.label}`;
+					const label = selected.size > 0 ? `✓ ${item.label} (${selected.size} marcadas)` : `○ ${item.label}`;
 					const styled = isFocused
 						? theme.fg("accent", label)
 						: theme.fg(selected.size > 0 ? "success" : "dim", label);
@@ -508,18 +481,18 @@ async function askMultiChoice(
 
 			if (editMode) {
 				lines.push("");
-				add(theme.fg("muted", " Write your custom answer:"));
+				add(theme.fg("muted", " Escribe tu respuesta:"));
 				for (const line of editor.render(Math.max(1, width - 2))) {
 					add(` ${line}`);
 				}
 				lines.push("");
-				add(theme.fg("dim", " Enter to save • Esc to go back"));
+				add(theme.fg("dim", " Enter para guardar • Esc para volver"));
 			} else {
 				lines.push("");
 				if (selected.size === 0) {
-					add(theme.fg("warning", " Select at least one answer before submitting."));
+					add(theme.fg("warning", " Marca al menos una respuesta antes de enviar."));
 				}
-				add(theme.fg("dim", " ↑↓ navigate • Space toggle • Enter edit/submit • Esc cancel"));
+				add(theme.fg("dim", " ↑↓ navegar • Espacio/Enter marcar • Enter en Otra para escribir, en Enviar para enviar • Esc cancelar"));
 			}
 
 			add(theme.fg("accent", "─".repeat(width)));
@@ -538,49 +511,23 @@ async function askMultiChoice(
 	});
 }
 
-// Shared UI mutex. ctx.ui.custom()/editor can only handle one active call at
-// a time, so ALL pop-up-style tools (ask_user_question, quiz, ...) must
-// serialize against each other, not just against themselves. We stash one
-// mutex on globalThis so separate extension files can share it without
-// importing each other.
-const SHARED_UI_LOCK_KEY = "__piSharedUiLock";
-function getSharedUiLock() {
-	const g = globalThis as any;
-	if (!g[SHARED_UI_LOCK_KEY]) {
-		let chain: Promise<void> = Promise.resolve();
-		g[SHARED_UI_LOCK_KEY] = {
-			withLock<T>(fn: () => T | Promise<T>): Promise<T> {
-				const prev = chain;
-				let release: () => void;
-				chain = new Promise<void>((r) => { release = r; });
-				return prev.then(fn).finally(() => release!());
-			},
-		};
-	}
-	return g[SHARED_UI_LOCK_KEY] as { withLock<T>(fn: () => T | Promise<T>): Promise<T> };
-}
-const sharedUiLock = getSharedUiLock();
-
-function withUILock<T>(fn: () => Promise<T>): Promise<T> {
-	return sharedUiLock.withLock(fn);
-}
-
 export default function askUserQuestion(pi: ExtensionAPI) {
 	pi.registerTool({
 		name: "ask_user_question",
 		label: "ask_user_question",
 		description:
-			"Ask the user a single question and pause execution until they answer. Use this when requirements are ambiguous, user preferences are needed, a decision would materially affect implementation, or you need confirmation before proceeding. Ask exactly one question per tool call, and prefer multiple separate tool calls over bundling unrelated questions together.",
+			"Hace una única pregunta al usuario y pausa la ejecución hasta que responda. Úsala cuando los requisitos sean ambiguos, necesites una preferencia, una decisión cambie materialmente el resultado o necesites confirmación antes de seguir. Exactamente una pregunta por llamada; mejor varias llamadas separadas que agrupar preguntas no relacionadas.",
 		promptSnippet:
-			"Use this tool to ask exactly one clarifying question, missing-requirement question, preference question, or decision question before continuing.",
+			"Usa esta herramienta para hacer exactamente una pregunta aclaratoria, de requisito, de preferencia o de decisión antes de continuar.",
 		promptGuidelines: [
-			"Ask exactly one question per tool call.",
-			"If you need answers to multiple questions, make multiple separate ask_user_question tool calls instead of combining them into one prompt.",
-			'Users will always be able to select "Other" to provide custom text input when options are provided.',
-			"Use multiSelect: true only when you need multiple answers to the same question.",
-			'If you recommend a specific option, make it the first option in the list and add "(Recommended)" at the end of the label.',
-			"Prefer this tool over guessing when requirements, preferences, or implementation choices are unclear.",
-			"Use this tool when multiple valid implementation paths exist and the preferred path depends on user choice.",
+			"Escribe la pregunta y las opciones SIEMPRE en castellano.",
+			"Exactamente una pregunta por llamada.",
+			"Si necesitas respuesta a varias preguntas, haz varias llamadas separadas a ask_user_question en vez de combinarlas.",
+			'Cuando hay opciones, el usuario siempre puede elegir "Otra" y escribir su propia respuesta.',
+			"Usa multiSelect: true solo cuando necesites varias respuestas a la misma pregunta.",
+			'Si recomiendas una opción, ponla primera y añade "(Recomendada)" al final de la etiqueta.',
+			"Prefiere esta herramienta a adivinar cuando requisitos, preferencias o decisiones no estén claros.",
+			"Úsala cuando haya varios caminos válidos y el preferido dependa de la elección del usuario.",
 		],
 		parameters: AskUserQuestionParams,
 
@@ -594,7 +541,7 @@ export default function askUserQuestion(pi: ExtensionAPI) {
 			}
 
 			if (!ctx.hasUI) {
-				return unavailableResult(params.question, mode, "ask_user_question requires interactive mode UI", context);
+				return unavailableResult(params.question, mode, "ask_user_question necesita la UI del modo interactivo", context);
 			}
 
 			return withUILock(async () => {
@@ -626,14 +573,17 @@ export default function askUserQuestion(pi: ExtensionAPI) {
 		},
 
 		renderCall(args, theme) {
-			const options = normalizeOptions(args.options as Array<{ label: string; value?: string; description?: string }> | undefined);
-			let text = theme.fg("toolTitle", theme.bold("ask_user_question ")) + theme.fg("muted", args.question);
+			// args may be partial while the model is still streaming them, so only
+			// lenient parsing here (see partialOptionLabels).
+			const labels = partialOptionLabels(args.options);
+			const question = typeof args.question === "string" ? args.question : "";
+			let text = theme.fg("toolTitle", theme.bold("ask_user_question ")) + theme.fg("muted", question);
 			if (args.multiSelect) {
-				text += theme.fg("dim", " [multi-select]");
+				text += theme.fg("dim", " [selección múltiple]");
 			}
-			if (options.length > 0) {
-				const labels = [...options.map((option) => option.label), getOtherLabel(options)].join(", ");
-				text += `\n${theme.fg("dim", `  Options: ${labels}`)}`;
+			if (labels.length > 0) {
+				const otherLabel = labels.some((l) => l.toLowerCase() === "otra") ? "Otra (personalizada)" : "Otra";
+				text += `\n${theme.fg("dim", `  Opciones: ${[...labels, otherLabel].join(", ")}`)}`;
 			}
 			return new Text(text, 0, 0);
 		},
@@ -646,19 +596,19 @@ export default function askUserQuestion(pi: ExtensionAPI) {
 			}
 
 			if (details.status === "cancelled") {
-				return new Text(theme.fg("warning", details.message || "Cancelled"), 0, 0);
+				return new Text(theme.fg("warning", details.message || "Cancelado"), 0, 0);
 			}
 
 			if (details.status === "unavailable") {
-				return new Text(theme.fg("warning", details.message || "ask_user_question unavailable"), 0, 0);
+				return new Text(theme.fg("warning", details.message || "ask_user_question no disponible"), 0, 0);
 			}
 
 			const lines = details.answers.map((answer) => {
 				switch (answer.type) {
 					case "text":
-						return `${theme.fg("success", "✓ ")}${theme.fg("accent", answer.label || "(empty response)")}`;
+						return `${theme.fg("success", "✓ ")}${theme.fg("accent", answer.label || "(respuesta vacía)")}`;
 					case "other":
-						return `${theme.fg("success", "✓ ")}${theme.fg("muted", "Other: ")}${theme.fg("accent", answer.label)}`;
+						return `${theme.fg("success", "✓ ")}${theme.fg("muted", "Otra: ")}${theme.fg("accent", answer.label)}`;
 					case "option":
 						return `${theme.fg("success", "✓ ")}${theme.fg("accent", `${answer.index}. ${answer.label}`)}`;
 				}

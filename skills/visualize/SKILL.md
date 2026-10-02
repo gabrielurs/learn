@@ -1,55 +1,55 @@
 ---
 name: visualize
-description: "Add a correct, minimal visual to a lesson — a diagram or geometric picture — that renders inline in the Obsidian log. Use when an idea is genuinely clearer as a picture: a dependency graph, system/flow, sequence, state machine, tree, comparison, or a spatial/geometric thing (coordinate geometry, number line, vectors, a plot, a physical layout). Outsources authoring+rendering to a maker subagent that verifies the image by looking at it, then you embed the returned file."
+description: "Añade a una lección un visual correcto y mínimo — un diagrama o figura geométrica — que se renderiza en línea en el log de Obsidian. Úsalo cuando una idea sea de verdad más clara como imagen: un grafo de dependencias, sistema/flujo, secuencia, máquina de estados, árbol, comparación, o algo espacial/geométrico (geometría analítica, recta numérica, vectores, una gráfica, una disposición física). Delega la autoría y el renderizado en un subagente creador que verifica la imagen mirándola; después incrustas el archivo devuelto."
 ---
 
-# Visualize
+# Visualizar
 
-A picture earns its place only when it shows something words can't — shape, structure, direction, relationship, geometry. This skill produces ONE such picture, guarantees it is **correct** (the maker renders it and looks at it before returning), and drops it into the lesson so it renders inline in the Obsidian `md-log` file.
+Una imagen solo se gana su sitio cuando muestra algo que las palabras no pueden — forma, estructura, dirección, relación, geometría. Este skill produce UNA imagen así, garantiza que es **correcta** (el creador la renderiza y la mira antes de devolverla) y la mete en la lección para que se renderice en línea en el archivo `md-log` de Obsidian.
 
-You are the **creative director**. You decide the exact idea and distill it to its fewest carrying elements. A **maker subagent** does the authoring, rendering, visual verification, and saving, then returns a filename. You embed that filename in your reply.
+Tú eres la **dirección creativa**. Decides la idea exacta y la destilas a los mínimos elementos que la sostienen. Un **subagente creador** hace la autoría, el renderizado, la verificación visual y el guardado, y devuelve un nombre de archivo. Tú incrustas ese nombre en tu respuesta.
 
-## When to visualize (and when not to)
+## Cuándo visualizar (y cuándo no)
 
-This teaching system builds a **dependency graph in the learner's head** — axioms at the root, derived facts hanging off them. A visual is powerful exactly when it makes that structure (or a geometry) visible. Reach for one when:
+Este sistema de enseñanza construye un **grafo de dependencias en la cabeza de quien aprende** — verdades incondicionales en la raíz, datos derivados colgando de ellas. Un visual es potente justo cuando hace visible esa estructura (o una geometría). Recurre a uno cuando:
 
-- The idea is a **structure or relationship**: dependencies, a system with parts and arrows, a flow/pipeline, a sequence of exchanges, a state machine, a tree/hierarchy, a comparison, a containment (what's inside vs outside).
-- The idea is **spatial or geometric**: coordinate geometry, a number line, vectors, a function's shape, a physical arrangement.
+- La idea es una **estructura o relación**: dependencias, un sistema con partes y flechas, un flujo/pipeline, una secuencia de intercambios, una máquina de estados, un árbol/jerarquía, una comparación, una contención (qué está dentro vs fuera).
+- La idea es **espacial o geométrica**: geometría analítica, una recta numérica, vectores, la forma de una función, una disposición física.
 
-Do NOT visualize when prose or a single equation already carries it. A decorative diagram that just restates the sentence next to it adds noise and a chance to be wrong. When in doubt, don't — a missing visual is cheaper than a false one.
+NO visualices cuando la prosa o una sola ecuación ya lo transmite. Un diagrama decorativo que solo repite la frase de al lado añade ruido y una ocasión de equivocarse. Ante la duda, no — un visual que falta es más barato que uno falso.
 
-## Choose the maker
+## Elige el creador
 
-Two makers, discovered from `.pi/agents/`:
+Dos creadores, descubiertos en `.pi/agents/`:
 
-- **`mermaid-maker`** — structural/relational visuals: dependency graphs, flowcharts, sequence/state/ER/class diagrams, trees, mindmaps, timelines. This is the default and fits the dependency-graph pedagogy directly.
-- **`svg-maker`** — spatial/geometric visuals Mermaid can't lay out: exact coordinates, geometry figures, number lines, vectors, plots, custom shapes.
+- **`mermaid-maker`** — visuales estructurales/relacionales: grafos de dependencias, diagramas de flujo, de secuencia/estados/ER/clases, árboles, mapas mentales, líneas de tiempo. Es el de por defecto y encaja directamente con la pedagogía del grafo de dependencias.
+- **`svg-maker`** — visuales espaciales/geométricos que Mermaid no sabe maquetar: coordenadas exactas, figuras geométricas, rectas numéricas, vectores, gráficas, formas a medida.
 
-Rule of thumb: if it's *nodes-and-edges / relationships*, use mermaid-maker. If it's *positions-and-shapes / geometry*, use svg-maker.
+Regla práctica: si son *nodos y aristas / relaciones*, mermaid-maker. Si son *posiciones y formas / geometría*, svg-maker.
 
-## Brief the maker well: one idea, fewest elements
+## Briefing al creador: una idea, mínimos elementos
 
-The most common failure is **cramming** — every extra label makes the picture harder to read AND harder to lay out correctly. Before briefing, prune to the fewest elements that carry the idea, and for each ask: *"if I delete this, is the idea still clear?"* If yes, delete it.
+El fallo más común es **abarrotar** — cada etiqueta extra hace la imagen más difícil de leer Y más difícil de maquetar bien. Antes del brief, poda hasta los mínimos elementos que sostienen la idea, y de cada uno pregúntate: *«si lo borro, ¿sigue clara la idea?»* Si sí, bórralo.
 
-Give the maker the concept AND the concrete elements you want — not a vague topic, and not a long checklist.
+Dale al creador el concepto Y los elementos concretos que quieres — ni un tema vago, ni una lista larga. **Escribe el brief en castellano y con las etiquetas exactas en castellano**, que es como deben aparecer en la imagen.
 
-- BAD: "make a diagram about how TCP works"
-- GOOD: "graph TD: a node 'packet' at the top; arrows down to 'ordering' and 'retransmit on loss'; both arrows down into 'reliable stream'. No title. Show that reliability is built FROM packets, not alongside them."
+- MAL: «haz un diagrama de cómo funciona TCP»
+- BIEN: «graph TD: un nodo 'paquete' arriba; flechas hacia abajo a 'ordenación' y 'retransmisión si se pierde'; ambas flechas bajan a 'flujo fiable'. Sin título. Muestra que la fiabilidad se construye A PARTIR de paquetes, no junto a ellos.»
 
-Keep the idea intact but trust the maker to compose; if your brief lists more than ~5–7 elements, cut it first.
+Mantén la idea intacta pero confía en que el creador componga; si tu brief enumera más de ~5–7 elementos, recórtalo antes.
 
-## Invoke
+## Invocar
 
-Dispatch the maker with the `subagent` tool:
+Lanza el creador con la herramienta `subagent`:
 
 ```
-subagent(agent="mermaid-maker", task="<your minimal, concrete brief>")
+subagent(agent="mermaid-maker", task="<tu brief mínimo y concreto>")
 ```
 ```
-subagent(agent="svg-maker", task="<your minimal, concrete brief>")
+subagent(agent="svg-maker", task="<tu brief mínimo y concreto>")
 ```
 
-The maker owns its own purpose-built tools (`write_*`/`edit_*`/`render_*`) — it authors the source, renders it to a PNG, **looks at the PNG and iterates until it is correct and clean**, publishes it into the vault with a unique filename, and returns:
+El creador tiene sus propias herramientas (`write_*`/`edit_*`/`render_*`) — escribe el código, lo renderiza a PNG, **mira el PNG e itera hasta que es correcto y limpio**, lo publica en el vault con un nombre único y devuelve:
 
 ```
 RESULT:
@@ -57,22 +57,22 @@ filename: viz-<slug>-<timestamp>.png
 path: <cwd>/viz/viz-<slug>-<timestamp>.png
 ```
 
-If it returns `RESULT: NONE`, it couldn't make a correct picture of the brief — simplify or rethink, or decide the visual isn't worth it. Never hand-author or fake a diagram yourself; correctness depends on the maker's render-and-inspect loop.
+Si devuelve `RESULT: NONE`, no pudo hacer una imagen correcta del brief — simplifica o replantea, o decide que el visual no compensa. Nunca escribas a mano ni falsees un visual de lección tú mismo; la corrección depende del bucle renderizar-y-mirar del creador. (La única excepción es el pequeño mapa de dependencias en ```mermaid``` que el skill `teach` presenta al planificar: es un boceto de trabajo, no un visual de lección.)
 
-## Embed it in the lesson
+## Incrustarlo en la lección
 
-Put the embed directly in your teaching reply, using Obsidian's wikilink embed with the returned **filename** (not the full path) and a display width:
+Pon la incrustación directamente en tu respuesta, con el wikilink de incrustación de Obsidian usando el **filename** devuelto (no la ruta completa) y un ancho:
 
 ```
 ![[viz-<slug>-<timestamp>.png|500]]
 ```
 
-That's all. The `md-log` extension mirrors your reply text verbatim into the linked `.md`, and Obsidian resolves the embed by filename anywhere in the vault (the maker saves into the project's `viz` folder, which is inside the vault) — so it renders inline in the lesson automatically. Width `|500` is a good default; use larger for dense diagrams. Introduce the visual in a sentence, then let it carry the idea — don't narrate every element back in prose.
+Nada más. La extensión `md-log` copia literalmente tu respuesta en el `.md` enlazado, y Obsidian resuelve la incrustación por nombre de archivo en cualquier parte del vault (el creador guarda en la carpeta `viz` del proyecto, que está dentro del vault) — así que se renderiza en línea en la lección automáticamente. `|500` es buen ancho por defecto; más grande para diagramas densos. Presenta el visual con una frase y deja que transmita la idea — no narres cada elemento en prosa.
 
-## Why this is reliable
+## Por qué es fiable
 
-- The maker never returns a picture it hasn't **looked at**, so "renders fine but says something false" is caught before it reaches the learner.
-- PNG embed means **what the maker verified is pixel-identical to what the learner sees** — no re-render drift.
-- Unique filenames keep Obsidian's by-filename embed resolution unambiguous.
+- El creador nunca devuelve una imagen que no haya **mirado**, así que «se renderiza bien pero dice algo falso» se caza antes de llegar a quien aprende.
+- La incrustación PNG significa que **lo que el creador verificó es idéntico píxel a píxel a lo que se ve** — sin deriva por re-renderizado.
+- Los nombres únicos mantienen inequívoca la resolución por nombre de Obsidian.
 
-> The makers render through the project's `visual-tools` extension (Mermaid via a bundled `@mermaid-js/mermaid-cli` + installed Chrome; SVG via `rsvg-convert`, fallback ImageMagick). You don't render anything yourself — you only brief the maker and embed the filename it returns.
+> Los creadores renderizan mediante la extensión `visual-tools` del proyecto (Mermaid con `@mermaid-js/mermaid-cli` empaquetado + Chrome instalado; SVG con `rsvg-convert`, o ImageMagick como alternativa, siempre sobre fondo blanco). Tú no renderizas nada — solo haces el brief al creador e incrustas el nombre que devuelve.

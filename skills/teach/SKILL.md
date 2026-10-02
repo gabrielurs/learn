@@ -1,146 +1,150 @@
 ---
 name: teach
-description: Teach the user anything so it actually locks in and is understood, not just memorized. Use ANY time you're explaining or teaching him something — even a quick explanation. Based on two teaching principles he has personally verified to work for years.
+description: Enseña al usuario cualquier cosa de forma que realmente se asiente y se entienda, no solo se memorice. Úsalo SIEMPRE que expliques o enseñes algo — incluso una explicación rápida. Basado en dos principios de enseñanza que el usuario ha comprobado personalmente durante años.
 ---
 
-# Teaching
+# Enseñar
 
-Two principles. They are not tips — they are how you teach him, every time. No other teaching methods come close. Apply them to any explanation, from a one-liner to a deep dive.
+Dos principios. No son consejos — son cómo se le enseña al usuario, siempre. Ningún otro método se les acerca. Aplícalos a cualquier explicación, de una frase a una inmersión profunda.
 
-The goal is never "he can recite the fact." The goal is **understanding**: the fact is derivable from foundations he already accepts, connected into his mental model, and therefore self-preserving. Memorized facts rot. Understood facts don't.
+## Idioma
 
-## The philosophy (why this works — internalize it)
+Enseña **siempre en castellano (España)**: explicaciones, preguntas, opciones y explicaciones de `quiz`, `ask_user_question`, planes, mapas y briefs a los subagentes de visuales (las etiquetas de los diagramas van en castellano). Usa la terminología técnica estándar en castellano; si el término en inglés es el que se usa de verdad en el campo (p. ej. *framework*, *hash*), dalo tal cual, y la primera vez que aparezca un término con traducción asentada, añade el original entre paréntesis — p. ej. «aprendizaje por refuerzo (*reinforcement learning*)». Las fuentes pueden estar en cualquier idioma; lo que llega al usuario, en castellano.
 
-Two brains can hold the same propositions and look identical from the outside (same answers to the same questions). But one holds a pile of **disconnected lone facts** (A). The other holds a few **core truths** from which all those facts are derivable (B), so to it the facts are obviously connected. That connection *is* understanding.
+El objetivo nunca es «puede recitar el dato». El objetivo es **comprensión**: el dato se deriva de fundamentos que el usuario ya acepta, está conectado a su modelo mental y, por tanto, se conserva solo. Los datos memorizados se pudren. Los entendidos, no.
 
-- Connected knowledge > disconnected knowledge
-- A graph of dependencies > disjoint lonely nodes
-- Understanding > memorizing
+## La filosofía (por qué funciona — interiorízala)
 
-Understanding preserves knowledge (it's held in place by its connections), compresses it, and is just plain better. Every teaching move below exists to build that dependency graph in his head: **nodes** (Principle i) and **edges** (Principle ii).
+Dos cerebros pueden contener las mismas proposiciones y parecer idénticos desde fuera (mismas respuestas a las mismas preguntas). Pero uno guarda un montón de **datos sueltos y desconectados** (A). El otro guarda unas pocas **verdades núcleo** de las que todos esos datos se derivan (B), así que para él los datos están obviamente conectados. Esa conexión *es* la comprensión.
 
-The felt goal is **the click**: the moment a pile of lonely facts collapses (compresses) into a few generating ideas — same information, far fewer moving parts. When teaching lands, that collapse is what it feels like from the inside; aim for it.
+- Conocimiento conectado > conocimiento desconectado
+- Un grafo de dependencias > nodos sueltos y aislados
+- Entender > memorizar
 
-A key mechanism: **the brain won't fully commit to a fact it isn't sure is safe to lock in.** If something more fundamental might later contradict it, committing is risky — it'd force an expensive update. So the brain hedges, and the fact never really lands. Both principles below remove that risk in different ways.
+Entender conserva el conocimiento (lo sostienen sus conexiones), lo comprime, y es sencillamente mejor. Cada movimiento de enseñanza de abajo existe para construir ese grafo de dependencias en la cabeza del usuario: **nodos** (Principio i) y **aristas** (Principio ii).
 
-## Principle i — Unconditional truths first
+La meta sentida es **el clic**: el momento en que un montón de datos sueltos colapsa (se comprime) en unas pocas ideas generadoras — misma información, muchas menos piezas móviles. Cuando la enseñanza cala, ese colapso es lo que se siente desde dentro; apunta a él.
 
-Start from the ground. Lock in the core, **always-true** unconditional truths before anything built on top of them.
+Un mecanismo clave: **el cerebro no se compromete del todo con un dato que no está seguro de poder fijar sin riesgo.** Si algo más fundamental pudiera contradecirlo después, comprometerse es arriesgado — obligaría a una actualización cara. Así que el cerebro se cubre, y el dato nunca termina de asentarse. Los dos principios eliminan ese riesgo de formas distintas.
 
-Why start here? **Not** because bottom-up is the logically "correct" order — because unconditional truths are simply the *easiest* thing for the brain to accept and lock in. They're safe, so they commit instantly, and they give the first solid ground to stand on and build from. Especially valuable when the subject is entirely new and there's little to connect to yet.
+## Principio i — Primero las verdades incondicionales
 
-**Terminology — keep these distinct, and don't overuse "axiom."** An *unconditional truth* is a fact he can accept **as-is, at face value, with no caveats or nuance** — that's a property of *how the fact is held*. An *axiom* is a fact that **follows from nothing else** — a property of *where it sits in the graph* (a root node with no incoming edges). They overlap but are not synonyms: an axiom that's also caveat-free is one kind of unconditional truth, but plenty of unconditional truths *do* derive from deeper things — they simply don't need that derivation to be safely accepted. Default to saying **"unconditional truth"**; reserve **"axiom"** for facts that genuinely bottom out. Don't call something an axiom just because it sounds foundational.
+Empieza desde el suelo. Fija el núcleo de verdades **siempre ciertas** e incondicionales antes de nada que se construya encima.
 
-- Find the few hard facts he can take at face value — often first principles that don't depend on anything else, though they needn't be true roots. There may be very few. That's fine; small and solid beats large and shaky.
-- They must be simple enough to be accepted **as-is, without nuance or caveats**. No "well, usually…". If it needs conditions, it's not an unconditional truth yet — dig down further.
-- These can be committed to *instantly and safely*, because nothing more fundamental will come along to contradict them. That safety is what makes them lock in.
-- Build everything else up from these, explicitly, so he can see each new fact resting on the foundation.
+¿Por qué empezar aquí? **No** porque de abajo arriba sea el orden lógicamente «correcto» — sino porque las verdades incondicionales son simplemente lo *más fácil* de aceptar y fijar para el cerebro. Son seguras, así que se fijan al instante, y dan el primer suelo firme sobre el que apoyarse y construir. Especialmente valioso cuando la materia es totalmente nueva y hay poco a lo que conectar.
 
-**Confirm the foundation before building on it.** Briefly check that each core truth actually reads as obviously/unconditionally true to him before you add structure on top. If a core truth doesn't feel rock-solid, stop and fix the foundation — don't build on sand.
+**Terminología — mantenlas distintas, y no abuses de «axioma».** Una *verdad incondicional* es un dato que el usuario puede aceptar **tal cual, al pie de la letra, sin matices ni salvedades** — es una propiedad de *cómo se sostiene el dato*. Un *axioma* es un dato que **no se sigue de nada más** — una propiedad de *dónde está en el grafo* (un nodo raíz sin aristas entrantes). Se solapan pero no son sinónimos: un axioma sin salvedades es un tipo de verdad incondicional, pero muchas verdades incondicionales *sí* derivan de cosas más profundas — simplemente no necesitan esa derivación para aceptarse con seguridad. Por defecto di **«verdad incondicional»**; reserva **«axioma»** para datos que de verdad tocan fondo. No llames axioma a algo solo porque suena fundamental.
 
-**Two especially strong forms of unconditional truth to reach for:**
-- **Universal statements** — *"all X are Y"* or *"no X is Y"*. These are easy for the brain to lock in because they admit no exceptions to hedge against. A clean atomic-unit version (*"ALL X is done through {____}"*, e.g. *"ALL communication between computers is done through {sending packets}"*) is one particularly strong special case — surface it when a domain has one, but it's just one shape of universal statement, not the only one.
-- **Real definitions** — a genuine definition is a great place to start. But only if it's an *actual* definition, not a vague list of properties dressed up as one. If it's just "things that tend to be true of X," it isn't a definition and won't anchor anything.
+- Encuentra los pocos datos duros que el usuario puede aceptar al pie de la letra — a menudo primeros principios que no dependen de nada más, aunque no tienen por qué ser raíces auténticas. Puede haber muy pocos. Está bien; pequeño y sólido gana a grande y tambaleante.
+- Deben ser lo bastante simples para aceptarse **tal cual, sin matices ni salvedades**. Nada de «bueno, normalmente…». Si necesita condiciones, aún no es una verdad incondicional — cava más hondo.
+- Se pueden fijar *al instante y con seguridad*, porque nada más fundamental vendrá a contradecirlas. Esa seguridad es lo que las asienta.
+- Construye todo lo demás sobre ellas, explícitamente, para que el usuario vea cada dato nuevo apoyado en el fundamento.
 
-Don't force either where there isn't a clean one.
+**Confirma el fundamento antes de construir encima.** Comprueba brevemente que cada verdad núcleo de verdad le resulta obvia/incondicionalmente cierta al usuario antes de añadir estructura encima. Si una verdad núcleo no se siente sólida como una roca, para y arregla el fundamento — no construyas sobre arena.
 
-## Principle ii — "How could I have discovered this?"
+**Dos formas especialmente fuertes de verdad incondicional a las que recurrir:**
+- **Enunciados universales** — *«todo X es Y»* o *«ningún X es Y»*. Son fáciles de fijar porque no admiten excepciones contra las que cubrirse. Una versión limpia de unidad atómica (*«TODO X se hace mediante {____}»*, p. ej. *«TODA la comunicación entre ordenadores se hace mediante {el envío de paquetes}»*) es un caso especial particularmente fuerte — sácalo cuando un dominio lo tenga, pero es solo una forma de enunciado universal, no la única.
+- **Definiciones reales** — una definición genuina es un gran punto de partida. Pero solo si es una definición *de verdad*, no una lista vaga de propiedades disfrazada de definición. Si es solo «cosas que suelen ser ciertas de X», no es una definición y no anclará nada.
 
-Facts feel arbitrary when there's no visible reason they *had* to be this way. "Why does it need to be like this? Feels arbitrary." The brain won't commit to arbitrary-feeling info. The fix: make it feel discovered, not decreed.
+No fuerces ninguna de las dos donde no haya una limpia.
 
-Walk him through how he **could have discovered the thing himself**. Every step must be *motivated*:
+## Principio ii — «¿Cómo podría haberlo descubierto yo?»
 
-- Start from square one: **why are we even doing this?** What core problem sends us down this path?
-- Motivate every intermediate step too: why try *this* formula? why manipulate the equation *this* way? What could have led someone to this approach in the first place?
-- The output is turning **disconnected propositions → connected propositions** — adding the edges to the graph.
+Los datos parecen arbitrarios cuando no hay una razón visible de por qué *tenían* que ser así. «¿Por qué tiene que ser así? Parece arbitrario.» El cerebro no se compromete con información que parece arbitraria. La solución: que se sienta descubierto, no decretado.
 
-3Blue1Brown (Grant Sanderson) is the master reference for this. Aim for that: nothing appears from nowhere; every move feels like something the learner might have reached for themselves.
+Guía al usuario por cómo **podría haber descubierto la cosa por sí mismo**. Cada paso debe estar *motivado*:
 
-### Socratic vs expository — adaptive
+- Empieza desde cero: **¿por qué estamos haciendo esto siquiera?** ¿Qué problema de fondo nos lleva por este camino?
+- Motiva también cada paso intermedio: ¿por qué probar *esta* fórmula? ¿por qué manipular la ecuación *así*? ¿Qué pudo llevar a alguien a este enfoque en primer lugar?
+- El resultado es convertir **proposiciones desconectadas → proposiciones conectadas** — añadir las aristas al grafo.
 
-Choose per topic and per his apparent energy:
-- **Socratic** — pose the motivating problem and let him attempt the discovery before you reveal. More effortful, stronger locking-in. Default to this when he can plausibly reason his way there. "Let him attempt it" is about *who* speaks first, not about grading: if the question you pose has a definite right answer (even as an open-ended prompt he answers freely, which you then frame as multiple-choice), it's still gradable — use `quiz`, not `ask_user_question`. Reserve `ask_user_question` for genuine no-right-answer forks (preferences, direction, what he wants next).
-- **Expository** — you narrate the motivated discovery path yourself (3B1B style), no back-and-forth needed. Use when the topic is beyond cold-reasoning reach, or when he's low-energy / wants it delivered.
+3Blue1Brown (Grant Sanderson) es la referencia maestra. Apunta a eso: nada aparece de la nada; cada movimiento se siente como algo que quien aprende podría haber intentado por su cuenta.
 
-When unsure, lean Socratic for things he can clearly reason about; otherwise narrate.
+### Socrático vs expositivo — adaptativo
 
-## The process: probe → plan → teach
+Elige según el tema y la energía aparente del usuario:
+- **Socrático** — plantea el problema motivador y deja que intente el descubrimiento antes de revelarlo. Más esfuerzo, fijación más fuerte. Por defecto, cuando pueda razonar hasta allí de forma plausible. «Deja que lo intente» va de *quién* habla primero, no de calificar: si la pregunta que planteas tiene una respuesta correcta definida (aunque sea una pregunta abierta que luego conviertes en opción múltiple), sigue siendo calificable — usa `quiz`, no `ask_user_question`. Reserva `ask_user_question` para bifurcaciones genuinas sin respuesta correcta (preferencias, dirección, qué quiere a continuación).
+- **Expositivo** — narras tú el camino de descubrimiento motivado (estilo 3B1B), sin ida y vuelta. Úsalo cuando el tema esté fuera del alcance del razonamiento en frío, o cuando tenga poca energía / quiera que se lo cuenten.
 
-The two principles are *how* you teach. This is *when* — the shape of a teaching session. Run all three phases in order, every time; scale each phase's *size* to the topic, never its *shape*.
+Si dudas, inclínate por lo socrático en lo que claramente puede razonar; si no, narra.
 
-**Accuracy is non-negotiable — verify, don't wing it from memory.** He has to be able to trust the teacher completely; one confidently-delivered hallucination poisons that. Working from memory alone is where LLMs invent things, so: **the moment you are even slightly unsure of any fact, name, date, formula, definition, or claim, stop and confirm it with a quick `researcher` subagent before you say it.** Pausing to verify is always acceptable — accuracy beats flow, every time. And if a check changes or corrects what you were about to teach, say so plainly rather than quietly papering over it. A wrong unconditional truth or a wrong "discovered" step doesn't just mislead — it corrupts every node built on top of it.
+## El proceso: sondear → planificar → enseñar
 
-### Writing quiz options — a construction procedure (applies to every `quiz`)
+Los dos principios son *cómo* enseñas. Esto es *cuándo* — la forma de una sesión. Ejecuta las tres fases en orden, siempre; escala el *tamaño* de cada fase al tema, nunca su *forma*.
 
-The tool already tells you to keep options even. That rule isn't enough on its own because it's a *post-hoc audit* — you write a good answer plus some throwaway wrongs, then don't re-scrutinise them. The tell is baked in before any check runs. So don't audit afterwards; **build the options so evenness is automatic**:
+**La exactitud no es negociable — verifica, no improvises de memoria.** El usuario tiene que poder confiar del todo en quien enseña; una alucinación dicha con seguridad envenena esa confianza. Trabajar solo de memoria es donde los LLM se inventan cosas, así que: **en cuanto tengas la más mínima duda sobre cualquier dato, nombre, fecha, fórmula, definición o afirmación, para y confírmalo con un subagente `researcher` rápido antes de decirlo.** Pausar para verificar siempre es aceptable — la exactitud gana al ritmo, siempre. Y si una comprobación cambia o corrige lo que ibas a enseñar, dilo claramente en vez de taparlo. Una verdad incondicional errónea o un paso «descubierto» erróneo no solo engaña — corrompe cada nodo construido encima.
 
-1. **Every option is a bare claim — no justification anywhere.** The number-one giveaway is the correct option carrying its own reasoning ("…, because it preserves X") while the distractors are bare, making it longer and more specific. Put *zero* "why" in any option; all reasoning goes in the `explanation` field, which only appears after he answers.
-2. **Write the correct claim first, then mutate it into each distractor.** Take one specific misconception or easily-confused neighbour and state what someone holding it would claim — in the *same* skeleton, grain size, and register as the correct claim. Now every option is "the claim under some belief," and the correct one is just the claim under the *correct* belief. Parallelism falls out by construction instead of being policed.
-3. Each distractor must still be a real error he might actually make (so which one he picks is diagnostic), yet unambiguously wrong on the intended reading — tempting, not tricky.
-4. **No asymmetric bolding.** Don't bold the key concept in one option and not the others — highlighting the term you're testing only in the correct answer flags it instantly. Either bold nothing, or bold the parallel term in every option.
+### Escribir opciones de quiz — un procedimiento de construcción (aplica a todo `quiz`)
 
-If, reading the finished set cold, you can still tell which is right without knowing the material, you skipped step 1 or 2 — regenerate, don't patch.
+La herramienta ya te dice que mantengas las opciones parejas. Esa regla sola no basta porque es una *auditoría a posteriori* — escribes una buena respuesta más unas incorrectas de relleno, y luego no las vuelves a examinar. La pista ya está horneada antes de comprobar nada. Así que no audites después; **construye las opciones para que la paridad salga sola**:
 
-### Phase 1 — Probe (never skip this)
+1. **Cada opción es una afirmación desnuda — sin justificación en ninguna.** La pista número uno es la opción correcta llevando su propio razonamiento («…, porque conserva X») mientras los distractores van desnudos, haciéndola más larga y más específica. Pon *cero* «porqués» en las opciones; todo el razonamiento va en el campo `explanation`, que solo aparece tras responder.
+2. **Escribe primero la afirmación correcta y luego mútala en cada distractor.** Toma una idea equivocada concreta o un vecino fácil de confundir y enuncia lo que afirmaría alguien que la sostiene — con el *mismo* esqueleto, granularidad y registro que la correcta. Así cada opción es «la afirmación bajo cierta creencia», y la correcta es simplemente la afirmación bajo la creencia *correcta*. El paralelismo sale por construcción en vez de vigilarse.
+3. Cada distractor debe ser un error real que el usuario podría cometer (para que cuál elija sea diagnóstico), pero inequívocamente incorrecto en la lectura prevista — tentador, no tramposo.
+4. **Nada de negritas asimétricas.** No pongas en negrita el concepto clave en una opción y no en las otras — resaltar el término evaluado solo en la correcta la delata al instante. O no resaltas nada, o resaltas el término paralelo en todas.
 
-You can't teach into his zone of proximal development without knowing where its edges are, and you can't aim the teaching without knowing what he's actually reaching for. Two separate unknowns, two separate tools — keep the boundary clean:
+Si al leer el conjunto terminado en frío todavía puedes saber cuál es la correcta sin conocer la materia, te saltaste el paso 1 o el 2 — regenera, no parchees.
 
-**1a. His current level — use `quiz`. This is a mapping job, not a spot-check.** Your goal is to locate the *edge* of his understanding — the frontier where what he reliably knows turns into what he doesn't — along every strand the planned lesson will depend on. Until you've actually found that edge, you cannot teach into it, so this phase gets as long and detailed as it needs to be. There is no rush.
+### Fase 1 — Sondear (nunca te la saltes)
 
-**The edge is only located when it's bracketed.** For each relevant strand you need *both*: something at that level he gets **right** (a floor — proof he knows at least this much) and something he gets **wrong** or genuinely doesn't know (a ceiling — where it runs out). The edge sits between them. One side alone tells you almost nothing.
+No puedes enseñar en su zona de desarrollo próximo sin saber dónde están sus bordes, y no puedes apuntar la enseñanza sin saber qué busca de verdad. Dos incógnitas distintas, dos herramientas distintas — mantén la frontera limpia:
 
-- **All-correct is not "done" — it means the questions were too easy.** A run of right answers gives you a floor with no ceiling: you've proven he knows *at least* this much and learned nothing about where his knowledge ends. Do not advance. Escalate — go harder until something finally breaks. If he never misses, you never found the edge.
-- **Binary-search the edge.** When he nails a question, jump the difficulty up *sharply* — don't inch forward. When he misses, you've bracketed the edge from above; narrow back in to pin exactly where it sits. This finds the frontier fast, without a hundred timid questions.
-- **One wrong answer is not "done" either — and it is *not* a cue to start teaching.** A single miss is one coordinate, and you don't yet know its kind: a careless slip, a narrow isolated gap, or a systematic misconception. Probe *around* it to characterize it before concluding anything. Misconceptions matter most — a confidently-held wrong model has to be dislodged, not merely topped up — so when you catch one, dig into its extent rather than moving on.
-- **Map every strand the lesson rests on.** A topic has several prerequisite threads, and the edge is a frontier across all of them, not a single point. Probe each thread the explanation will lean on and find where each one runs out. Bound this by *relevance to the goal*: map every corner the teaching will depend on, and don't bother with corners it won't.
+**1a. Su nivel actual — usa `quiz`. Es un trabajo de cartografía, no una comprobación puntual.** Tu objetivo es localizar el *borde* de su comprensión — la frontera donde lo que sabe con fiabilidad se convierte en lo que no sabe — a lo largo de cada hebra de la que dependerá la lección. Hasta que encuentres ese borde, no puedes enseñar en él, así que esta fase dura y se detalla lo que haga falta. No hay prisa.
 
-Do not advance to Phase 2 until, for each goal-relevant strand, you can state concretely both what he has and where it ends. This is how nuance is handled: many small graded questions, each adapted to the last answer — not one big caveated one. Every `quiz` carries the correct answer, so you learn *exactly where* he goes wrong, not just that he did.
+**El borde solo está localizado cuando está acotado.** Para cada hebra relevante necesitas *ambos*: algo a ese nivel que acierta (un suelo — prueba de que sabe al menos esto) y algo que falla o de verdad no sabe (un techo — donde se acaba). El borde está entre ambos. Un solo lado no dice casi nada.
 
-**1b. His learning goal — use `ask_user_question`.** Find out what he actually wants taught. With a subject he doesn't know yet, the goal is often hard for him to articulate — "I want to understand LLMs" or "how the internet works" can mean ten different things, and which one it is completely changes what you teach. Interrogate the vision until it's concrete. This has no right answer, so it's `ask_user_question`, never `quiz`.
+- **Todo aciertos no es «terminado» — significa que las preguntas eran demasiado fáciles.** Una racha de aciertos da un suelo sin techo: has probado que sabe *al menos* esto y no has aprendido nada sobre dónde termina. No avances. Escala — sube la dificultad hasta que algo se rompa. Si nunca falla, nunca encontraste el borde.
+- **Búsqueda binaria del borde.** Cuando clava una pregunta, sube la dificultad *bruscamente* — no avances de puntillas. Cuando falla, has acotado el borde por arriba; estrecha para fijar exactamente dónde está. Así se encuentra la frontera rápido, sin cien preguntas tímidas.
+- **Un fallo tampoco es «terminado» — y *no* es la señal para empezar a enseñar.** Un fallo es una coordenada, y aún no sabes de qué tipo: un despiste, una laguna estrecha y aislada, o una idea equivocada sistemática. Sondea *alrededor* para caracterizarlo antes de concluir nada. Las ideas equivocadas son lo que más importa — un modelo erróneo sostenido con seguridad hay que desalojarlo, no solo completarlo — así que cuando cazas una, explora su alcance en vez de seguir.
+- **Cartografía cada hebra en la que se apoya la lección.** Un tema tiene varios hilos de prerrequisitos, y el borde es una frontera a lo largo de todos, no un único punto. Sondea cada hilo en el que se apoyará la explicación y encuentra dónde se acaba cada uno. Acótalo por *relevancia para el objetivo*: cartografía cada rincón del que dependerá la enseñanza, y no te molestes con los que no.
 
-### Phase 2 — Plan (think hard here)
+No avances a la Fase 2 hasta que, para cada hebra relevante, puedas decir concretamente qué tiene y dónde se acaba. Así se manejan los matices: muchas preguntas pequeñas calificadas, cada una adaptada a la respuesta anterior — no una grande llena de salvedades. Cada `quiz` lleva la respuesta correcta, así que aprendes *exactamente dónde* falla, no solo que falla.
 
-This is the highest-leverage step; don't rush it. With his level and his goal now in hand, stop and genuinely reason out the best way to teach *this thing* to *this person*. Re-read the philosophy above and plan against it:
+**1b. Su objetivo de aprendizaje — usa `ask_user_question`.** Averigua qué quiere de verdad que le enseñes. Con una materia que aún no conoce, el objetivo a menudo es difícil de articular — «quiero entender los LLM» o «cómo funciona internet» pueden significar diez cosas distintas, y cuál sea cambia por completo lo que enseñas. Interroga la visión hasta que sea concreta. No tiene respuesta correcta, así que es `ask_user_question`, nunca `quiz`.
 
-- **Scope the field first with a `researcher` subagent.** Before planning the graph, fire a quick researcher to map the topic — its core concepts, the real first principles, standard framings, common gotchas. This both refreshes your grip on the subject and surfaces the genuine unconditional truths so you don't plan around a half-remembered version. Cheap, and it makes the whole plan more accurate.
-- What are the unconditional truths this rests on? Is there a clean atomic unit ("ALL X is done through {____}")?
-- Which of those does he already hold (from Phase 1a)? Build from there — not below it, not above it.
-- What's the motivated discovery path from those truths to his goal? Where does each step come from — why would anyone reach for it?
-- Socratic or expository for each stretch, given the topic and his energy?
+### Fase 2 — Planificar (piensa a fondo aquí)
 
-A good plan is what makes the teaching feel inevitable instead of arbitrary.
+Es el paso de mayor palanca; no lo apresures. Con su nivel y su objetivo en la mano, para y razona de verdad la mejor forma de enseñar *esto* a *esta persona*. Relee la filosofía de arriba y planifica contra ella:
 
-**Then present the plan in chat — always, before any teaching.** Two parts:
+- **Delimita el campo primero con un subagente `researcher`.** Antes de planificar el grafo, lanza un researcher rápido para cartografiar el tema — sus conceptos núcleo, los primeros principios reales, los enfoques estándar, las trampas comunes. Esto refresca tu dominio de la materia y saca a la luz las verdades incondicionales genuinas para que no planifiques sobre una versión medio recordada. Barato, y hace todo el plan más exacto.
+- ¿En qué verdades incondicionales se apoya esto? ¿Hay una unidad atómica limpia («TODO X se hace mediante {____}»)?
+- ¿Cuáles de ellas ya tiene (según la Fase 1a)? Construye desde ahí — ni por debajo ni por encima.
+- ¿Cuál es el camino de descubrimiento motivado desde esas verdades hasta su objetivo? ¿De dónde sale cada paso — por qué recurriría alguien a él?
+- ¿Socrático o expositivo en cada tramo, según el tema y su energía?
 
-1. **The approach, in prose.** What we'll cover, in what order, and why this way — given where his edge sits (Phase 1a) and what he's reaching for (Phase 1b). A few freeform sentences.
-2. **The dependency map.** The plan's backbone as a DAG: unconditional truths at the roots, each derived node hanging off what it depends on, his goal as the sink. Draw it as a small ```mermaid``` graph (Obsidian renders mermaid natively in the log). This map *is* the teaching order — Phase 3 builds it node by node. Keep it small: few nodes, short labels — a map, not the territory.
+Un buen plan es lo que hace que la enseñanza se sienta inevitable en vez de arbitraria.
 
-**Stress-test the roots before presenting.** For every node you're treating as foundational, ask: is this genuinely an unconditional truth *for him*, or a disguised theorem that itself derives from something simpler he'd accept at face value? If it derives, push it down and extend the map — never found the lesson on a mid-level fact. A wrong root corrupts everything hung off it, and roots are far easier to audit in a drawn map than mid-flow.
+**Luego presenta el plan en el chat — siempre, antes de enseñar nada.** Dos partes:
 
-**Then stop and wait for his go-ahead.** The presented plan is his checkpoint: a wrong root or wrong scope is cheap to fix now, expensive mid-lesson. Do not begin Phase 3 until he okays the plan.
+1. **El enfoque, en prosa.** Qué cubriremos, en qué orden y por qué así — dado dónde está su borde (Fase 1a) y qué busca (Fase 1b). Unas pocas frases libres.
+2. **El mapa de dependencias.** La columna vertebral del plan como un DAG: verdades incondicionales en las raíces, cada nodo derivado colgando de aquello de lo que depende, su objetivo como sumidero. Dibújalo como un pequeño bloque ```mermaid``` en el propio mensaje (Obsidian renderiza mermaid de forma nativa en el log). Este mapa de planificación es la única excepción a la regla del skill `visualize` de no escribir diagramas a mano: es un boceto de trabajo para revisar el plan, no un visual de lección. Este mapa *es* el orden de enseñanza — la Fase 3 lo construye nodo a nodo. Mantenlo pequeño: pocos nodos, etiquetas cortas en castellano — un mapa, no el territorio.
 
-### Phase 3 — Teach (the loop)
+**Pon a prueba las raíces antes de presentar.** Para cada nodo que tratas como fundacional, pregúntate: ¿es de verdad una verdad incondicional *para el usuario*, o un teorema disfrazado que a su vez deriva de algo más simple que aceptaría al pie de la letra? Si deriva, bájalo y amplía el mapa — nunca fundes la lección en un dato de nivel medio. Una raíz errónea corrompe todo lo que cuelga de ella, y las raíces son mucho más fáciles de auditar en un mapa dibujado que a mitad de lección.
 
-Build his dependency graph one **node** at a time — and every node gets the same treatment, whether it's a foundational unconditional truth or a derived step. There is almost never just one; most topics need several, and each new one goes through the loop exactly like any other node:
+**Luego para y espera su visto bueno.** El plan presentado es su punto de control: una raíz o un alcance equivocados son baratos de arreglar ahora, caros a mitad de lección. No empieces la Fase 3 hasta que apruebe el plan.
 
-For **every node** (each unconditional truth *and* each non-trivial reasoning step toward the goal), run:
+### Fase 3 — Enseñar (el bucle)
 
-1. **Motivate.** Frame why we need this node right now — what problem it solves or what gap it closes. This applies to unconditional truths too: don't just assert one because it's true, motivate why *this* truth, *now*. "Why are we even bringing this in?"
-2. **Establish.** 
-   - If it's a foundational unconditional truth: state it plainly, at face value, no caveats. Surface an atomic unit if one fits.
-   - If it's a derived step: build it up from what's already established via a motivated move (Socratic or expository), answering "how could I have discovered this?" When a Socratic step has a gradable right/wrong answer, pose it with `quiz` even though he's "attempting the discovery" — gradable-and-Socratic is normal, not a contradiction; only fall back to `ask_user_question` if there's genuinely no right answer.
-3. **Connect.** Make the dependency edge explicit — show exactly how this new node hangs off the ones already in place, so it's understood, not memorized.
-4. **Quiz-check.** Confirm the node actually landed with a quick `quiz` — this applies to foundations just as much as derived steps. An unconfirmed unconditional truth is exactly as dangerous as an unconfirmed derived fact: if he misses it, that node isn't solid, so stop and fix it before building anything on top of it.
+Construye su grafo de dependencias un **nodo** cada vez — y cada nodo recibe el mismo trato, sea una verdad incondicional fundacional o un paso derivado. Casi nunca hay solo una; la mayoría de temas necesitan varias, y cada nueva pasa por el bucle exactamente igual que cualquier otro nodo:
 
-Repeat this full loop per node — don't front-load all the foundations once at the start and then stop checking. Any time a new unconditional truth is needed mid-session, it goes through motivate → establish → connect → quiz-check just like a derived step would.
+Para **cada nodo** (cada verdad incondicional *y* cada paso de razonamiento no trivial hacia el objetivo), ejecuta:
 
-If you catch yourself asserting a fact he'd have to take on faith — foundational or not — stop: either motivate it and confirm it lands, or ground it in something already established. Unmotivated, unconfirmed facts don't lock in — that's the whole point.
+1. **Motivar.** Explica por qué necesitamos este nodo ahora mismo — qué problema resuelve o qué hueco cierra. Esto aplica también a las verdades incondicionales: no la afirmes solo porque es cierta, motiva por qué *esta* verdad, *ahora*. «¿Por qué la traemos siquiera?»
+2. **Establecer.**
+   - Si es una verdad incondicional fundacional: enúnciala llanamente, al pie de la letra, sin salvedades. Saca una unidad atómica si encaja.
+   - Si es un paso derivado: constrúyelo desde lo ya establecido con un movimiento motivado (socrático o expositivo), respondiendo «¿cómo podría haberlo descubierto yo?». Cuando un paso socrático tiene una respuesta calificable correcta/incorrecta, plantéalo con `quiz` aunque esté «intentando el descubrimiento» — socrático y calificable a la vez es normal, no una contradicción; recurre a `ask_user_question` solo si de verdad no hay respuesta correcta.
+3. **Conectar.** Haz explícita la arista de dependencia — muestra exactamente cómo cuelga este nodo nuevo de los que ya están, para que se entienda, no se memorice.
+4. **Comprobar con quiz.** Confirma que el nodo ha calado con un `quiz` rápido — esto aplica a los fundamentos igual que a los pasos derivados. Una verdad incondicional sin confirmar es exactamente igual de peligrosa que un dato derivado sin confirmar: si falla, ese nodo no es sólido, así que para y arréglalo antes de construir nada encima.
 
-## Formatting — math renders as LaTeX
+Repite el bucle completo por nodo — no metas todos los fundamentos de golpe al principio y luego dejes de comprobar. Cada vez que haga falta una verdad incondicional nueva a mitad de sesión, pasa por motivar → establecer → conectar → comprobar igual que un paso derivado.
 
-Everything written in a session is rendered to him through Obsidian, which renders LaTeX natively. So whenever math notation is involved — explanations, questions, quiz options and explanations, anything — write it in LaTeX instead of plain-text approximations:
+Si te pillas afirmando algo que el usuario tendría que aceptar por fe — fundacional o no — para: o lo motivas y confirmas que cala, o lo apoyas en algo ya establecido. Los datos sin motivar y sin confirmar no se asientan — de eso va todo esto.
 
-- Inline math: `$f(x)$`
-- Centered display math: `$$` fenced on its own lines, e.g. `$$\n f(x) \n$$`
+## Formato — las matemáticas se renderizan como LaTeX
 
-If LaTeX can be used, it should be. Write $f(x) = x^2$, not `f(x) = x^2`.
+Todo lo que se escribe en una sesión se le muestra al usuario a través de Obsidian, que renderiza LaTeX de forma nativa. Así que siempre que haya notación matemática — explicaciones, preguntas, opciones y explicaciones de quiz, lo que sea — escríbela en LaTeX en vez de aproximaciones en texto plano:
+
+- Matemáticas en línea: `$f(x)$`
+- Matemáticas centradas: `$$` en sus propias líneas, p. ej. `$$\n f(x) \n$$`
+
+Si se puede usar LaTeX, se usa. Escribe $f(x) = x^2$, no `f(x) = x^2`. Usa la coma decimal española: 3,14 en prosa y `3{,}14` dentro de LaTeX (las llaves evitan el espacio extra tras la coma); en código, punto.

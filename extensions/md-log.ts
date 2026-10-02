@@ -21,11 +21,12 @@
  *   /md-log <filepath>  — Link a markdown file and backfill the session.
  *   /md-unlog           — Stop logging.
  *
- * Append-only. No send-back-to-agent functionality (that lived in the old
- * .md-link extension this was modeled on).
+ * Append-only: the linked note's existing content is never overwritten —
+ * the backfill is appended after it. No send-back-to-agent functionality (that
+ * lived in the old .md-link extension this was modeled on).
  */
 
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
@@ -65,15 +66,32 @@ export default function mdLog(pi: ExtensionAPI) {
 		return prev.then(fn).finally(() => release!());
 	}
 
+	// Separator needed before appending to the file's current tail: nothing for an
+	// empty file, otherwise enough newlines to leave exactly one blank line.
+	// Reads only the last two bytes, so appends stay O(1) however long the log
+	// grows, and edits made in Obsidian meanwhile are never clobbered.
+	function separatorFor(file: string): string {
+		if (!fs.existsSync(file)) return "";
+		const size = fs.statSync(file).size;
+		if (size === 0) return "";
+		const n = Math.min(2, size);
+		const buf = Buffer.alloc(n);
+		const fd = fs.openSync(file, "r");
+		try {
+			fs.readSync(fd, buf, 0, n, size - n);
+		} finally {
+			fs.closeSync(fd);
+		}
+		const tail = buf.toString("utf-8");
+		if (tail.endsWith("\n\n")) return "";
+		if (tail.endsWith("\n")) return "\n";
+		return "\n\n";
+	}
+
 	function appendToFile(text: string): void {
 		if (!logFile) return;
 		try {
-			let current = "";
-			if (fs.existsSync(logFile)) {
-				current = fs.readFileSync(logFile, "utf-8");
-			}
-			const prefix = current.trim().length > 0 ? "\n\n" : "";
-			fs.writeFileSync(logFile, current + prefix + text + "\n", "utf-8");
+			fs.appendFileSync(logFile, separatorFor(logFile) + text + "\n", "utf-8");
 		} catch {
 			// File may have been deleted externally; ignore.
 		}
@@ -90,7 +108,7 @@ export default function mdLog(pi: ExtensionAPI) {
 	}
 
 	function userBlock(text: string): string {
-		return `> [!quote] YOU\n\n${text}`;
+		return `> [!quote] TÚ\n\n${text}`;
 	}
 
 	// Skill declarations (`<skill name="..." ...> ...whole SKILL.md... </skill>`)
@@ -102,7 +120,7 @@ export default function mdLog(pi: ExtensionAPI) {
 			/<skill\b([^>]*)>[\s\S]*?<\/skill>/g,
 			(_match, attrs: string) => {
 				const name = /name="([^"]+)"/.exec(attrs)?.[1];
-				return `> [!note] SKILL loaded: ${name ?? "(unknown)"}`;
+				return `> [!note] SKILL cargado: ${name ?? "(desconocido)"}`;
 			},
 		);
 	}
@@ -132,10 +150,10 @@ export default function mdLog(pi: ExtensionAPI) {
 	function answerCalloutQuiz(details: any): string {
 		const status = details?.status;
 		if (status === "cancelled") {
-			return callout("warning", "Quiz — cancelled", ["(user skipped)"]);
+			return callout("warning", "Quiz — cancelado", ["(saltado)"]);
 		}
 		if (status === "unavailable") {
-			return callout("warning", "Quiz — unavailable", [details?.message || ""]);
+			return callout("warning", "Quiz — no disponible", [details?.message || ""]);
 		}
 		// "I don't know" is neither correct nor incorrect — it's a distinct signal,
 		// so it never renders as a red ✗.
@@ -143,30 +161,30 @@ export default function mdLog(pi: ExtensionAPI) {
 		const correct = details?.correct === true;
 		const type = dontKnow ? "question" : correct ? "success" : "failure";
 		const title = dontKnow
-			? "Quiz — I don't know"
+			? "Quiz — No lo sé"
 			: correct
-				? "Quiz — correct ✓"
-				: "Quiz — incorrect ✗";
+				? "Quiz — correcto ✓"
+				: "Quiz — incorrecto ✗";
 		const body: string[] = [];
 
 		if (dontKnow) {
-			body.push("Your answer: I don't know");
+			body.push("Tu respuesta: No lo sé");
 		} else {
 			const answers: any[] = details?.answers || [];
-			const sel = answers.map((a) => `${a.index}. ${a.label}`).join(", ") || "(none)";
-			body.push(`Your answer: ${sel}`);
+			const sel = answers.map((a) => `${a.index}. ${a.label}`).join(", ") || "(ninguna)";
+			body.push(`Tu respuesta: ${sel}`);
 		}
 
 		const correctIndices: number[] = details?.correctIndices || [];
 		const correctStr = correctIndices.map((i) => `${i}`).join(", ");
-		body.push(`Correct answer: ${correctStr}`);
+		body.push(`Respuesta correcta: ${correctStr}`);
 
 		// Optional free-text note the user typed in the always-present note field.
 		// Only present (in details) when non-empty, so no guard for empty strings.
 		if (details?.note) {
 			body.push("");
 			const noteLines = String(details.note).split("\n");
-			body.push(`Note: ${noteLines[0]}`);
+			body.push(`Nota: ${noteLines[0]}`);
 			for (let i = 1; i < noteLines.length; i++) body.push(noteLines[i]);
 		}
 
@@ -180,19 +198,19 @@ export default function mdLog(pi: ExtensionAPI) {
 	function answerCalloutAsk(details: any): string {
 		const status = details?.status;
 		if (status === "cancelled") {
-			return callout("warning", "Question — cancelled", ["(user skipped)"]);
+			return callout("warning", "Pregunta — cancelada", ["(saltada)"]);
 		}
 		if (status === "unavailable") {
-			return callout("warning", "Question — unavailable", [details?.message || ""]);
+			return callout("warning", "Pregunta — no disponible", [details?.message || ""]);
 		}
 		const answers: any[] = details?.answers || [];
 		const body: string[] = answers.map((a) => {
-			if (a.type === "other") return `Other: ${a.label}`;
+			if (a.type === "other") return `Otra: ${a.label}`;
 			if (a.type === "text") return a.label;
 			return `${a.index}. ${a.label}`;
 		});
-		if (body.length === 0) body.push("(no answer)");
-		return callout("example", "Answer", body);
+		if (body.length === 0) body.push("(sin respuesta)");
+		return callout("example", "Respuesta", body);
 	}
 
 	// --- Event handlers ---
@@ -237,7 +255,7 @@ export default function mdLog(pi: ExtensionAPI) {
 		const question: string = input.question || "";
 		const context: string | undefined = input.details?.trim() || undefined;
 		const options: Array<{ label: string }> = Array.isArray(input.options) ? input.options : [];
-		const block = questionCallout("Question", question, context, options);
+		const block = questionCallout("Pregunta", question, context, options);
 		await withLock(() => appendToFile(block));
 	});
 
@@ -279,15 +297,15 @@ export default function mdLog(pi: ExtensionAPI) {
 	// --- Commands ---
 
 	pi.registerCommand("md-log", {
-		description: "Mirror the session to a markdown file (backfills history)",
+		description: "Refleja la sesión en un archivo markdown (vuelca el historial)",
 		handler: async (args, ctx: any) => {
 			const filepath = args.trim();
 			if (!filepath) {
-				ctx.ui.notify("Usage: /md-log <filepath>", "warning");
+				ctx.ui.notify("Uso: /md-log <ruta>", "warning");
 				return;
 			}
 			if (typeof ctx.isIdle === "function" && !ctx.isIdle()) {
-				ctx.ui.notify("Wait for the agent to finish before linking.", "warning");
+				ctx.ui.notify("Espera a que el agente termine antes de enlazar.", "warning");
 				return;
 			}
 
@@ -297,11 +315,11 @@ export default function mdLog(pi: ExtensionAPI) {
 			// it never creates one. This avoids silently scattering new files
 			// (and parent directories) around the vault from a typo'd path.
 			if (!fs.existsSync(resolved)) {
-				ctx.ui.notify(`File does not exist: ${resolved}`, "error");
+				ctx.ui.notify(`El archivo no existe: ${resolved}`, "error");
 				return;
 			}
 			if (!fs.statSync(resolved).isFile()) {
-				ctx.ui.notify(`Not a file: ${resolved}`, "error");
+				ctx.ui.notify(`No es un archivo: ${resolved}`, "error");
 				return;
 			}
 
@@ -316,22 +334,22 @@ export default function mdLog(pi: ExtensionAPI) {
 				"md-log",
 				theme.fg("accent", "🗒 ") + theme.fg("dim", path.basename(resolved)),
 			);
-			ctx.ui.notify(`Linked: ${resolved} (${written} entries backfilled)`, "success");
+			ctx.ui.notify(`Enlazado: ${resolved} (${written} entradas volcadas)`, "success");
 		},
 	});
 
 	pi.registerCommand("md-unlog", {
-		description: "Stop mirroring the session to a markdown file",
+		description: "Deja de reflejar la sesión en el archivo markdown",
 		handler: async (_args, ctx) => {
 			if (!logFile) {
-				ctx.ui.notify("No file linked", "warning");
+				ctx.ui.notify("No hay archivo enlazado", "warning");
 				return;
 			}
 			const name = path.basename(logFile);
 			logFile = null;
 			pi.appendEntry("md-log", { file: null });
 			ctx.ui.setStatus("md-log", undefined);
-			ctx.ui.notify(`Unlinked: ${name}`, "info");
+			ctx.ui.notify(`Desenlazado: ${name}`, "info");
 		},
 	});
 
@@ -413,7 +431,7 @@ export default function mdLog(pi: ExtensionAPI) {
 				// shuffles, so its tool-call args are already the true order.
 				if (tc) {
 					const a = tc.args || {};
-					const label = tc.name === "quiz" ? "Quiz" : "Question";
+					const label = tc.name === "quiz" ? "Quiz" : "Pregunta";
 					const shuffled = msg.toolName === "quiz"
 						? (msg.details?.options as Array<{ index: number; label: string }> | undefined)
 						: undefined;
@@ -431,13 +449,9 @@ export default function mdLog(pi: ExtensionAPI) {
 			}
 		}
 
-		if (blocks.length > 0) {
-			try {
-				fs.writeFileSync(logFile, blocks.join("\n\n") + "\n", "utf-8");
-			} catch {
-				// ignore
-			}
-		}
+		// Append after whatever the note already holds — /md-log links into an
+		// existing note, so overwriting it would destroy the user's content.
+		if (blocks.length > 0) appendToFile(blocks.join("\n\n"));
 		return count;
 	}
 }
